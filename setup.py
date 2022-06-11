@@ -6,7 +6,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setup(
     name='uisdata',
-    version='0.3.970',
+    version='0.3.971',
     author='UIS_DAO_M_Murphy',
     author_email='m.murphy@unesco.org',
     description='Consumes the UIS Bulk Data Download System (BDDS): get, select, subset, merge metadata/labels, other utilities',

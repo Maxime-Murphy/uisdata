@@ -8,20 +8,30 @@ import numpy as np  # Dependency
 
 
 class bdds:
-    """The bdds Class allows to download a BDDS archive, access, and manipulate
-    the data (subset, merge metadata, create list of indictator/region with search, etc.)
-    To instantiate the class pick a UIS dataset from the list below (use the name in quote excluding the parenthesis).
+    """The bdds Class allows direct access to all BDDS archive
+    It contains methods facilitating the production of subsets with labels and metadata
+    To instantiate the class pick a UIS dataset from the list below 
+    (use the name in quote excluding the parenthesis). Full walkthrough available at
+    https://datalore.jetbrains.com/notebook/FaD1hIZ0s0XKrlZcWTMYVW/UrrXOcYJWCstRNMNPvzzPF/
 
     Parameter
     ----------
-    datasetName : str {"SDG" (SDG 1&4), "OPRI" (Other Policy Relevant Indicators),
-     "SCI" (R&D), INNO (Innovation), "CLTE" (Cultural Employment), "CLTT" (Cultural Trade),
-     "FILM" (Feature Films), "SDG11", "DEM" (Demographic and Socio-economic),
-     "EDUNONCORE" (Deprecated non-core indicators, final release in Feb.2020)}.
+    datasetName : 
+        {'SDG': 'Sustainable Development Goal (SDG 4)',
+         'SDG11': 'Sustainable Development Goal (SDG 11)',
+         'OPRI': 'Other Policy Relevant Indicators',
+         'SCI': 'Research and Development (R&D) SDG 9.5',
+         'DEM': 'Demographic and Socio-economic Indicators',
+         'EDUNONCORE': 'Education Non Core Archive February 2020',
+         'SCIARCHIVE': 'Research and Development (R&D) Archive March 2021',
+         'INNOARCHIVE': 'Innovation Archive April 2017',
+         'CLTEARCHIVE': 'Cultural employment Archive June 2019',
+         'CLTTARCHIVE': 'Cultural trade Archive June 2021',
+         'FILMARCHIVE': 'Feature Film Archive June 2019'}.
 
     Once the class is instantiated with a specific dataset, the following methods can be called:
     zipToLocalDir,
-    dataTables (parent) :
+    dataTables:
         readmeFile,
         subsetData,
         longToWide,
@@ -198,7 +208,7 @@ class bdds:
             metaMod = metaMod.groupby(['INDICATOR_ID', 'COUNTRY_ID', 'YEAR', 'TYPE']) \
                 ['METADATA'].agg(lambda col: '|'.join(col)).reset_index()
 
-            dataset_dict['METADATA'] = metaMod  # Update dataFrame tin dataset_dict
+            dataset_dict['METADATA'] = metaMod  # Update dataFrame in dataset_dict
         except KeyError:
             pass
 
@@ -487,32 +497,16 @@ class bdds:
                     clean[k] = v
             return clean
 
-        # Run that remove nan function on the dict
+        # Run that removes nan function on the dict
         dictMeta_noNull = cleanNullTerms(dictMeta)
-        # Transform dict to data frame creating a column for key and a column for value
-        dfMetaRaw = pd.DataFrame(dictMeta_noNull.items())
-        # Rename column with label
-        # Check for potential issue where 0 and 1 change order (passed: on a archive)
-        dfMetaRaw = dfMetaRaw.rename({0: 'indicConYear', 1: 'metaDict'}, axis=1)
-        # print (dfMetaRaw.loc[0].apply(type))
-        # Change the dataframe cube from tuple to string
-        dfMetaRaw['indicConYear'] = dfMetaRaw['indicConYear'].astype(str)  # change column tuple type to string type
-        # print (dfMetaRaw.iloc[0].apply(type))
-        # Pre-compile regex pattern and remove tuple artefacts from string; use list comprehension for speed gain
-        # Removes parenthesis, single/double quotes and white spaces
-        p = re.compile(r'(\(|\)|\'|\"|\s)*')
-        dfMetaRaw['indicConYear'] = [p.sub('', x) for x in dfMetaRaw['indicConYear']]
-        # Split the data cube (string) column into it's constituent indic, year, country; split on comma and make one column per constituent
-        i = dfMetaRaw.columns.get_loc('indicConYear')
-        dfMetaRaw_cube = dfMetaRaw['indicConYear'].str.split(",", expand=True)
-        dfMetaClean = pd.concat([dfMetaRaw.iloc[:, :i], dfMetaRaw_cube, dfMetaRaw.iloc[:, i + 1:]], axis=1)
-        # Rename indic, country, year and change year type to int64
-        # Check for potential issues where 0, 1, 2 are not always in this order: indic, country, year (pass on all archive)
-        # Reset var name and type as the original in the meta file
-        dfMetaFinal = dfMetaClean.rename({0: 'INDICATOR_ID', 1: 'COUNTRY_ID', 2: 'YEAR'}, axis=1)
-        # change column str type to int64
-        dfMetaFinal['YEAR'] = dfMetaFinal['YEAR'].astype(int)  # change column str type to int64
-        # print (dfMetaFinal.iloc[0].apply(type))
+        
+        # Dict to list of list ... to dataframe
+        listMeta_noNull = []
+        for k, v in dictMeta_noNull.items(): 
+            a, b, c = k                         #k is a tuple of ('INDICATOR_ID', 'COUNTRY_ID', 'YEAR')
+            temp_list = [a, b, c, v]            #v is the full metadata string
+            listMeta_noNull.append(temp_list)
+        dfMetaFinal = pd.DataFrame(listMeta_noNull, columns = ['INDICATOR_ID', 'COUNTRY_ID', 'YEAR', 'metaDict'])
         return dfMetaFinal
 
     def allMetaMerge(self, dataTableDict, aDataSet, metaForm="Col"):
@@ -590,6 +584,9 @@ class bdds:
                                      geoType="Country")
             subset = self.allLabelMerge(dataTableDict, subset)
             subset = self.allMetaMerge(dataTableDict, subset, metaForm)
+            #!!! Uncomment if streamlit app doesn't like nan with dict column
+            # subset["metaDict"] = subset["metaDict"].fillna("none")
+
         elif geoType == "Region":
             subset = self.subsetData(dataTableDict["DATA_REGIONAL"], yearList, geoList, indicatorList, geoType="Region")
             subset = self.allLabelMerge(dataTableDict, subset, geoType="Region")
