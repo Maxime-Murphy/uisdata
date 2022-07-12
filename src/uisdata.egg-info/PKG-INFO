@@ -1,13 +1,14 @@
 Metadata-Version: 2.1
 Name: uisdata
-Version: 0.3.971
-Summary: Consumes the UIS Bulk Data Download System (BDDS): get, select, subset, merge metadata/labels, other utilities
-Author: UIS_DAO_M_Murphy
-Author-email: m.murphy@unesco.org
+Version: 0.1
+Summary: Consumes the UIS Bulk Data Download System (BDDS): get, select, subset, merge metadata/labels, search, other utilities
+Home-page: https://github.com/Maxime-Murphy/uisdata
+Author: Maxime Murphy
+Author-email: maxime.murphy@gmail.com
 Classifier: Programming Language :: Python :: 3
 Classifier: License :: OSI Approved :: MIT License
 Classifier: Operating System :: OS Independent
-Classifier: Development Status :: 1 - Planning
+Classifier: Development Status :: 4 - Beta
 Classifier: Intended Audience :: Science/Research
 Classifier: Topic :: Database
 Classifier: Topic :: Scientific/Engineering :: Information Analysis
@@ -30,19 +31,17 @@ License-File: LICENSE
 - Search utility to create lists of indicators and regions
 - ... more to come ... 
 
-*uisdata.api* coming in 2022...
-
 ## Source code and installation
 The test version of the source code is currently hosted on PyPi at:  
-https://test.pypi.org/project/uisdata/
+https://pypi.org/project/uisdata/
 
 ## Python requirement
 *uisdata* requires a python 64-bit version. 
 It has not been tested extensively to find the minimal viable version, but it will work on: 
 **python** >=3.6  (64-bit)
 
-## Installation of the test version
-    pip install --upgrade --index-url https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple uisdata
+## Installation 
+    pip install -i https://pypi.org/simple/ uisdata
 
 ## Modules Dependencies
 *uisdata.bdds* has not been tested extensively to find the minimal viable versions for its dependencies.  
@@ -55,7 +54,7 @@ It requires the following libraries:
 MIT License
 
 ## Background
-Work on *uisdata* started at UIS (UNESCO Institute for Statistics) in 2021 for facilitating programmatic access to the UIS datasets. It is still under active development, and we will be adding features in future iterations.
+Work on *uisdata* started in 2021 for facilitating programmatic access to the UIS datasets. It is still under development, and I will be adding features in future iterations.
 
 ## Tutorials / use-case
 [*.bdds* Use-case](https://datalore.jetbrains.com/notebook/FaD1hIZ0s0XKrlZcWTMYVW/UrrXOcYJWCstRNMNPvzzPF/) is provided through dataLore.  

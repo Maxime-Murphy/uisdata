@@ -13,19 +13,17 @@
 - Search utility to create lists of indicators and regions
 - ... more to come ... 
 
-*uisdata.api* coming in 2022...
-
 ## Source code and installation
-The test version of the source code is currently hosted on PyPi at:  
-https://test.pypi.org/project/uisdata/
+The current beta version is hosted on PyPi at:  
+https://pypi.org/project/uisdata/
 
 ## Python requirement
 *uisdata* requires a python 64-bit version. 
 It has not been tested extensively to find the minimal viable version, but it will work on: 
 **python** >=3.6  (64-bit)
 
-## Installation of the test version
-    pip install --upgrade --index-url https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple uisdata
+## Installation 
+    pip install -i https://pypi.org/simple/ uisdata
 
 ## Modules Dependencies
 *uisdata.bdds* has not been tested extensively to find the minimal viable versions for its dependencies.  
@@ -38,7 +36,7 @@ It requires the following libraries:
 MIT License
 
 ## Background
-Work on *uisdata* started at UIS (UNESCO Institute for Statistics) in 2021 for facilitating programmatic access to the UIS datasets. It is still under active development, and we will be adding features in future iterations.
+Work on *uisdata* started in 2021 for facilitating programmatic access to the UIS datasets. It is still under development, and I will be adding features in future iterations.
 
 ## Tutorials / use-case
 [*.bdds* Use-case](https://datalore.jetbrains.com/notebook/FaD1hIZ0s0XKrlZcWTMYVW/UrrXOcYJWCstRNMNPvzzPF/) is provided through dataLore.  

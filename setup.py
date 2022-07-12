@@ -6,19 +6,19 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setup(
     name='uisdata',
-    version='0.3.971',
-    author='UIS_DAO_M_Murphy',
-    author_email='m.murphy@unesco.org',
+    version='0.1',
+    author='Maxime Murphy',
+    author_email='maxime.murphy@gmail.com',
     description='Consumes the UIS Bulk Data Download System (BDDS): get, select, subset, merge metadata/labels, other utilities',
     long_description=long_description,
     long_description_content_type='text/markdown',
-    # url='https://github.com/Max-Murphy-code/uisdata.git',
+    url='https://github.com/Maxime-Murphy/uisdata',
     # see https://pypi.org/classifiers/
     classifiers=[
         'Programming Language :: Python :: 3',
         'License :: OSI Approved :: MIT License',
         'Operating System :: OS Independent',
-        'Development Status :: 1 - Planning',
+        'Development Status :: 4 - Beta',
         'Intended Audience :: Science/Research',
         'Topic :: Database',
         'Topic :: Scientific/Engineering :: Information Analysis'
